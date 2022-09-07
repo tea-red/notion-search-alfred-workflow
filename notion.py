@@ -52,6 +52,10 @@ if (showRecentlyViewedPages == 'false') | (showRecentlyViewedPages == 'False') |
 else:
     showRecentlyViewedPages = True
 
+ancestors = []
+searchTargetPageId = os.environ['searchTargetPageId']
+if searchTargetPageId:
+    ancestors.append(searchTargetPageId)
 
 def buildnotionsearchquerydata():
     query = {}
@@ -66,7 +70,6 @@ def buildnotionsearchquerydata():
     filters["isNavigableOnly"] = isNavigableOnly
     filters["navigableBlockContentOnly"] = isNavigableOnly
     filters["requireEditPermissions"] = False
-    ancestors = []
     filters["ancestors"] = ancestors
     createdby = []
     filters["createdBy"] = createdby
@@ -183,7 +186,7 @@ alfredQuery = str(sys.argv[1])
 searchResultList = []
 # If no query is provided and we're able to get the userId from the cookie env variable, show recently viewed notion pages.
 # Else show notion search results for the query given
-if not (alfredQuery and alfredQuery.strip()): 
+if not (alfredQuery and alfredQuery.strip()):
     if ("notion_user_id" in bakedCookies and showRecentlyViewedPages):
         headers = {"Content-type": "application/json",
                 "Cookie": cookie}
@@ -206,8 +209,8 @@ if not (alfredQuery and alfredQuery.strip()):
                 if "iconEmoji" in x:
                     searchResultObject.icon = geticonpath(searchResultObject.id, x.get('iconEmoji'))
                 if "fullIconUrl" in x:
-                    searchResultObject.icon = geticonpath(searchResultObject.id, x.get('fullIconUrl'))            
-            
+                    searchResultObject.icon = geticonpath(searchResultObject.id, x.get('fullIconUrl'))
+
             searchResultObject.link = getnotionurl() + searchResultObject.id.replace("-", "")
             searchResultList.append(searchResultObject)
 else:
@@ -224,7 +227,7 @@ else:
     dataStr = json.dumps(data).replace("<gzkNfoUU>", "")
     dataStr = dataStr.replace("</gzkNfoUU>", "")
     #Get obj back with replacement
-    data = json.loads(dataStr)   
+    data = json.loads(dataStr)
     conn.close()
 
     # Extract search results from notion search response
@@ -252,7 +255,7 @@ else:
                         searchResultObject.icon = None
                         searchResultObject.title = searchResults.recordMap.get('block').get(searchResultObject.id).get(
                             'value').get('format').get('page_icon') + " " + searchResultObject.title
-            
+
             searchResultObject.link = getnotionurl() + searchResultObject.id.replace("-", "")
             searchResultList.append(searchResultObject)
     except:

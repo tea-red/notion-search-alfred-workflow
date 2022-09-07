@@ -253,6 +253,8 @@ Thanks!</string>
 		<string>False</string>
 		<key>notionSpaceId</key>
 		<string></string>
+		<key>searchTargetPageId</key>
+		<string></string>
 		<key>showRecentlyViewedPages</key>
 		<string>True</string>
 		<key>useDesktopClient</key>
@@ -262,6 +264,7 @@ Thanks!</string>
 	<array>
 		<string>notionSpaceId</string>
 		<string>cookie</string>
+		<string>searchTargetPageId</string>
 	</array>
 	<key>version</key>
 	<string>0.4.2</string>
